@@ -48,6 +48,10 @@ Relative navigating and moving:
 
 Adjusting the view:
 
+* `ctrl+up` - moves the viewpoint up
+* `ctrl+down` - moves the viewpoint down
+* `ctrl+left` - moves the viewpoint left
+* `ctrl+right` - moves the viewpoint right
 * `c` - centers the active node on the screen
 * `C` - locks/unlocks active nodes on the center 
 * `~` or `m` - activate the root element
@@ -212,6 +216,10 @@ You can also change key bindings with a `bind x = command` syntax. The following
     bind   arr_left           =   go_left
     bind   alt_arr_up         =   add_star
     bind   alt_arr_down       =   remove_star
+    bind   ctrl_arr_up        =   move_viewport_down
+    bind   ctrl_arr_down      =   move_viewport_up
+    bind   ctrl_arr_left      =   move_viewport_right
+    bind   ctrl_arr_right     =   move_viewport_left
     bind   1                  =   collapse_level_1
     bind   2                  =   collapse_level_2
     bind   3                  =   collapse_level_3

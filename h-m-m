@@ -241,14 +241,17 @@ const special_keys =
 	'arr_up'   => "\033\133\101",
 	'arr_left' => "\033\133\104",
 
-	'alt_arr_up'   => "\033\133\061\073\063\101",
-	'alt_arr_down' => "\033\133\061\073\063\102",
+	'alt_arr_up'      => "\033\133\061\073\063\101",
+	'ctrl_arr_up'     => "\033\133\061\073\065\101",
 
-	'meta_arr_left' => "\033\033\133\104",
+	'alt_arr_down'    => "\033\133\061\073\063\102",
+	'ctrl_arr_down'   => "\033\133\061\073\065\102",
+
+	'meta_arr_left'   => "\033\033\133\104",
 	'ctrl_arr_left'   => "\033\133\061\073\065\104",
 	'shift_arr_left'  => "\033\133\061\073\062\104",
 
-	'meta_arr_right'=> "\033\033\133\103",
+	'meta_arr_right'  => "\033\033\133\103",
 	'ctrl_arr_right'  => "\033\133\061\073\065\103",
 	'shift_arr_right' => "\033\133\061\073\062\103",
 
@@ -318,17 +321,21 @@ $keybindings['G'] = 'go_to_bottom';
 $keybindings['h'] = 'go_left';
 $keybindings['H'] = 'toggle_hide';
 $keybindings[special_keys['ctrl_h']] = 'toggle_show_hidden';
+$keybindings[special_keys['ctrl_arr_left']] = 'move_viewport_right';
 
 $keybindings['i'] = 'edit_node_append';
 $keybindings['I'] = 'edit_node_replace';
 
 $keybindings['j'] = 'go_down';
 $keybindings['J'] = 'move_node_down';
+$keybindings[special_keys['ctrl_arr_down']] = 'move_viewport_up';
 
 $keybindings['k'] = 'go_up';
 $keybindings['K'] = 'move_node_up';
+$keybindings[special_keys['ctrl_arr_up']] = 'move_viewport_down';
 
 $keybindings['l'] = 'go_right';
+$keybindings[special_keys['ctrl_arr_right']] = 'move_viewport_left';
 
 $keybindings['m'] = 'go_to_root';
 $keybindings['~'] = 'go_to_root';
@@ -2664,7 +2671,7 @@ function quit_with_debug()
 
 
 // }}}
-// {{{ move_window
+// {{{ move_window / viewport
 
 function move_window(&$mm)
 {
@@ -2682,6 +2689,37 @@ function move_window(&$mm)
 	$mm['viewport_top']  = max( $mm['viewport_top'],  $y2 - $mm['terminal_height']);
 }
 
+function move_viewport_down()
+{
+	global $mm;
+	$mm['viewport_top']++;
+	build_map($mm);
+	display($mm);
+}
+
+function move_viewport_up()
+{
+	global $mm;
+	$mm['viewport_top']--;
+	build_map($mm);
+	display($mm);
+}
+
+function move_viewport_left()
+{
+	global $mm;
+	$mm['viewport_left']++;
+	build_map($mm);
+	display($mm);
+}
+
+function move_viewport_right()
+{
+	global $mm;
+	$mm['viewport_left']=max(0,$mm['viewport_left']-1);
+	build_map($mm);
+	display($mm);
+}
 
 // }}}
 // {{{ changes
@@ -3581,7 +3619,6 @@ function display(&$mm, $force_center = false)
 
 
 	echo reset_page.reset_color.$output;
-
 
 	// showing the logo :)
 
